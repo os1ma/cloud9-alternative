@@ -103,6 +103,26 @@ Open this link in your browser https://vscode.dev/tunnel/XXXXXXXXXXXXXXXXXXXX
 
 ![](images/vscode.png)
 
+## トラブルシューティング
+
+### 起動時のスクリプトのログ確認手順
+
+EC2 インスタンスには、起動時のスクリプト (ユーザーデータ) で Visual Studio Code をインストールしています。
+
+`code` コマンドが見つからない場合、以下のコマンドでユーザーデータのログを確認してください。
+
+```console
+cat /var/log/cloud-init-output.log
+```
+
+### Visualt Stuido Code Server の起動状況・ログ確認手順
+
+`code` コマンドはインストールされているものの、ブラウザから Visual Studio Code に接続できない場合、以下のコマンドで Visual Studio Code Server の起動状況を確認してください。
+
+```console
+code tunnel service log
+```
+
 ## 停止・削除手順
 
 構築した開発環境を使わないときは、「EC2 インスタンスの停止」または「CloudFormation スタックの削除」により、料金を削減することができます。
@@ -153,34 +173,81 @@ CloudFormation のホーム画面左のメニューから「スタック」を�
 
 ![](images/vscode-port-forward.png)
 
-## [WIP] 各種インストール手順
+## 各種インストール手順
 
 ### Git のインストール
 
+以下のコマンドで Git をインストールできます。
+
+```console
+sudo dnf install -y git
+```
+
+以下のコマンドで、インストールできたことを確認してください。
+
+```console
+git -v
+```
+
 ### asdf のインストール
+
+Node.js や Terraform などの特定バージョンをインストールしたい際は、[asdf](https://asdf-vm.com/) を使用すると便利です。
+
+以下の公式ドキュメントに従って、「1. 依存関係のインストール」「2. asdf のダウンロード」「3. asdf のインストール」の手順でインストールしてください。
+
+https://asdf-vm.com/ja-jp/guide/getting-started.html
+
+なお、「1. 依存関係のインストール」ではパッケージマネージャが DNF の場合の手順を実施してください。
+また、「3. asdf のインストール」では、「Bash & Git」の手順を実施してください。
+
+「3. asdf のインストール」で `~/.bashrc` を編集したら、ターミナルを一度閉じて開き直してください。
+
+以下のコマンドで、インストールできたことを確認してください。
+
+```console
+asdf version
+```
 
 ### Node.js のインストール
 
-## トラブルシューティング
+asdf を使って Node.js をインストールする手順を以下に示します。
 
-### 起動時のスクリプトのログ確認手順
-
-EC2 インスタンスには、起動時のスクリプト (ユーザーデータ) で Visual Studio Code をインストールしています。
-
-`code` コマンドが見つからない場合、以下のコマンドでユーザーデータのログを確認してください。
+まず、以下のコマンドで Node.js のインストールに必要な OS のパッケージをインストールします。
 
 ```console
-cat /var/log/cloud-init-output.log
+sudo dnf install -y python3 gcc-c++ make python3-pip
 ```
 
-### Visualt Stuido Code Server の起動状況・ログ確認手順
+参考: https://github.com/nodejs/node/blob/main/BUILDING.md#building-nodejs-on-supported-platforms
 
-`code` コマンドはインストールされているものの、ブラウザから Visual Studio Code に接続できない場合、以下のコマンドで Visual Studio Code Server の起動状況を確認してください。
+続いて、以下のコマンドで asdf の Node.js プラグインをインストールします。
 
 ```console
-code tunnel service log
+asdf plugin add nodejs
 ```
+
+作業用のディレクトリに `.tool-versions` というファイルを作成し、インストールしたい Node.js のバージョンを以下のように記述します。
+
+```
+nodejs 20.16.0
+```
+
+![](images/vscode-tool-versions.png)
+
+`.tool-versions` を配置したディレクトリで以下のコマンドを実行して、Node.js をインストールします。
+
+```console
+asdf install
+```
+
+以下のコマンドで、インストールできたことを確認してください。
+
+```console
+node -v
+```
+
+![](images/vscode-install-node.png)
 
 ## 参考リポジトリ
 
-このリポジトリの環境構築手順は、「[AWS CDK Conference Japan 2024 presented by JAWS-UG コントリビュートワークショップ](https://github.com/jaws-ug-cdk/cdk-conf-2024-contribute-workshop)」のリポジトリを参考にさせていただきました。
+EC2 インスタンスで Visual Studio Code Server を使用する環境の構築は、「[AWS CDK Conference Japan 2024 presented by JAWS-UG コントリビュートワークショップ](https://github.com/jaws-ug-cdk/cdk-conf-2024-contribute-workshop)」のリポジトリを参考にさせていただきました。
