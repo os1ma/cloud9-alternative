@@ -36,7 +36,7 @@ CloudFormation のホーム画面左のメニューから「スタック」を�
 
 > [!WARNING]
 > AWS のハンズオンでは、AWS CLI や CDK、Terraform、Serverless Framework などのツールを使用するために、開発環境に非常に強い権限が必要なことが多いです。
-> そこで、この手順で構築される EC2 インスタンスには、AdministratorAccess の権限を付与しています。
+> そのため、この手順で構築される EC2 インスタンスには AdministratorAccess の権限を付与しています。
 
 ### 2. EC2 インスタンスへの接続
 
@@ -127,11 +127,33 @@ CloudFormation のホーム画面左のメニューから「スタック」を�
 
 ![](images/cloudformation-delete.png)
 
-## [WIP] 補足
+## 基本操作
 
 ### ターミナルの開き方
 
+画面左のメニューボタン (≡) をクリックし、「ターミナル」>「新しいターミナル」でターミナルを開くことができます。
+
+![](images/vscode-terminal.png)
+
+### ディレクトリの開き方
+
+作業用のディレクトリは、ターミナルで `mkdir workspace` のようなコマンドで作成してください。
+
+画面左のメニューボタン (≡) をクリックし、「ファイル」>「フォルダーを開く」で作成したディレクトリを開くことができます。
+
+![](images/vscode-open-directory.png)
+
+![](images/vscode-open-directory2.png)
+
+![](images/vscode-open-directory3.png)
+
 ### Web アプリケーションのプレビュー (ポートの転送)
+
+ターミナル上で Web アプリケーション等を起動した場合、ターミナルの右の「ポート」のタブを開いて、「転送されたアドレス」を右クリックし、「ブラウザーで開く」をクリックすると開くことができます。または、画面右下に表示される「ブラウザーで開く」をクリックしてください。
+
+![](images/vscode-port-forward.png)
+
+## [WIP] 各種インストール手順
 
 ### Git のインストール
 
