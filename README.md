@@ -24,6 +24,9 @@ AWS Cloud9 の代替として、EC2 インスタンスで [Visual Studio Code Se
 
 ![](images/cloudformation-open.png)
 
+> [!NOTE]
+> 日本に在住の場合、マネジメントコンソール右上で「東京」リージョンを選択することで、開発環境を快適に使用することができます。
+
 CloudFormation のホーム画面左のメニューから「スタック」を開き、「スタックの作成」を選択します。
 
 ![](images/cloudformation-stacks.png)
