@@ -60,11 +60,6 @@ Resources:
     Properties:
       VpcId: !Ref Vpc
       GroupDescription: cloud9-alternative
-      SecurityGroupIngress:
-        - CidrIp: 0.0.0.0/0
-          IpProtocol: tcp
-          FromPort: 22
-          ToPort: 22
       SecurityGroupEgress:
         - CidrIp: 0.0.0.0/0
           IpProtocol: -1

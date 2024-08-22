@@ -52,21 +52,41 @@ CloudFormation のホーム画面左のメニューから「スタック」を�
 
 ### 2. EC2 インスタンスへの接続
 
-マネジメントコンソール上部の検索欄で「EC2」を検索して開きます。
+マネジメントコンソール上部の検索欄で「Systems Manager」を検索して開きます。
 
-![](images/ec2-open.png)
+![](images/ssm-open.png)
 
-EC2 のホーム画面左のメニューから「インスタンス」を開き、EC2 インスタンスを選択して、上部の「接続」をクリックします。
+Systems Manager のホーム画面左のメニューから「セッションマネージャー」を開き、「セッションの開始」をクリックします。
 
-![](images/ec2-instances.png)
+![](images/ssm-session-manager.png)
 
-「EC2 Instance Connect」のタブを選択して「接続」をクリックすると、ブラウザ上で EC2 インスタンスに接続できます。
+「ターゲットインスタンス」で該当の EC2 インスタンスを選択して、「Start session」をクリックすると、ブラウザ上で EC2 インスタンスに接続できます。
 
-![](images/ec2-connect.png)
+![](images/ssm-start-session.png)
 
-![](images/ec2-terminal.png)
+![](images/ssm-terminal.png)
 
-### 3. Visual Studio Code Server への接続
+### 3. ユーザーの変更
+
+まずは以下のコマンドを実行して、操作中のユーザーを「ec2-user」に変更します。
+
+```console
+sudo su - ec2-user
+```
+
+ターミナルの表示が以下のようになれば成功です。
+(IP アドレスの部分は毎回異なります)
+
+```
+[ec2-user@ip-10-0-0-119 ~]$
+```
+
+![](images/ssm-ec2-user.png)
+
+> [!WARNING]
+> 次の Visual Studio Code Server に接続するためのコマンドを実行する前に、上記の手順でユーザーを「ec2-user」に切り替える必要があります。
+
+### 4. Visual Studio Code Server への接続
 
 作成した EC2 インスタンスには、Visual Studio Code がインストール済みです。
 以下の手順で、Visual Studio Code Server を起動して接続することができます。
