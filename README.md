@@ -288,6 +288,38 @@ node -v
 
 ![](images/vscode-install-node.png)
 
+## Docker のインストール
+
+以下のコマンドで、Docker をインストールします。
+
+```console
+sudo dnf update
+sudo dnf install -y docker
+```
+
+以下のコマンドで Docker を起動します。
+
+```console
+sudo systemctl start docker
+```
+
+以下のコマンドで Docker コンテナの一覧を表示できます。
+
+```console
+sudo docker container ls
+```
+
+以下のようにエラーなく一覧が表示されれば、Docker のセットアップは完了です。
+
+```
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+```
+
+> [!WARNING]
+> docker コマンドを sudo をつけずに実行できるようにしたい場合は、
+> `sudo usermod -a -G docker "$(whoami)"` コマンドを実行したうえで、
+> ターミナルを一度閉じて開き直してください。
+
 ## 参考リポジトリ
 
 EC2 インスタンスで Visual Studio Code Server を使用する環境の構築は、「[AWS CDK Conference Japan 2024 presented by JAWS-UG コントリビュートワークショップ](https://github.com/jaws-ug-cdk/cdk-conf-2024-contribute-workshop)」のリポジトリを参考にさせていただきました。
