@@ -288,7 +288,7 @@ node -v
 
 ![](images/vscode-install-node.png)
 
-## Docker のインストール
+### Docker のインストール
 
 以下のコマンドで、Docker をインストールします。
 
