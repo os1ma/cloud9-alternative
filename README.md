@@ -304,7 +304,7 @@ sudo dnf -y install gnupg2 --allowerasing
 asdf plugin add terraform
 ```
 
-作業用のディレクトリに `.tool-versions` というファイルを作成し、インストールしたい terraform のバージョンを以下のように記述します。
+作業用のディレクトリに `.tool-versions` というファイルを作成し、インストールしたい Terraform のバージョンを以下のように記述します。
 
 ```
 terraform 1.3.8
