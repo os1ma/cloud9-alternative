@@ -288,6 +288,40 @@ node -v
 
 ![](images/vscode-install-node.png)
 
+### Terraform のインストール
+
+asdf を使って Terraform をインストールする手順を以下に示します。
+
+まず、以下のコマンドで Terraform のインストールに必要な OS のパッケージをインストールします。
+
+```console
+sudo dnf -y install gnupg2 --allowerasing
+```
+
+続いて、以下のコマンドで asdf の Terraform プラグインをインストールします。
+
+```console
+asdf plugin add terraform
+```
+
+作業用のディレクトリに `.tool-versions` というファイルを作成し、インストールしたい terraform のバージョンを以下のように記述します。
+
+```
+terraform 1.3.8
+```
+
+`.tool-versions` を配置したディレクトリで以下のコマンドを実行して、Terraform をインストールします。
+
+```console
+asdf install
+```
+
+以下のコマンドで、インストールできたことを確認してください。
+
+```console
+terraform -v
+```
+
 ### Docker のインストール
 
 以下のコマンドで、Docker をインストールします。
