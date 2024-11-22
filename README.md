@@ -7,12 +7,6 @@ AWS Cloud9 の代替として、EC2 インスタンスで [Visual Studio Code Se
 > このリポジトリの手順では、デフォルトで t2.micro の EC2 インスタンスを起動します。
 > このインスタンスを起動し続けると、1 ヶ月で 10 数ドル程度の料金が発生します。
 
-> [!WARNING]
-> 【安定しない場合】**開発環境が t2.micro の EC2 インスタンスで安定的に動作しない場合は、「c7i.large」の EC2 インスタンスを試してみてください。** c7i.large インスタンスを起動し続けると、1 日あたり 2.7 ドル程度、1 ヶ月で 80 ドル程度の料金が発生します。ハンズオンが終了したら環境を停止または削除するようにしてください。
-
-> [!NOTE]
-> この開発環境が安定的に動作しないといった場合は、GitHub の [Issue](https://github.com/os1ma/cloud9-alternative/issues) で起票お願いします。
-
 ## 目次
 
 - [環境構築手順](#環境構築手順)
@@ -142,6 +136,28 @@ Open this link in your browser https://vscode.dev/tunnel/XXXXXXXXXXXXXXXXXXXX
 ![](images/vscode.png)
 
 ## トラブルシューティング
+
+### 開発環境が安定しない場合
+
+開発環境が t2.micro の EC2 インスタンスで安定的に動作しない場合、インスタンスのスペックが不足している可能性があります。
+その場合は、インスタンスタイプを「c7i.large」として構築し直してみてください。
+
+ただし、**c7i.large インスタンスを起動し続けると、1 日あたり 2.7 ドル程度、1 ヶ月で 80 ドル程度の料金が発生します。**
+ハンズオンが終了したら環境を停止または削除するようにしてください。
+
+> [!NOTE]
+> それでもこの開発環境が安定的に動作しないといった場合は、GitHub の [Issue](https://github.com/os1ma/cloud9-alternative/issues) で起票お願いします。
+
+### `-bash: code: command not found`
+
+`code` コマンド実行時に `-bash: code: command not found` というエラーになった場合、以下のコマンドを順に実行することで、code コマンドをインストールし直すことができます。
+
+```console
+sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
+echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.repos.d/vscode.repo > /dev/null
+dnf check-update
+sudo dnf install -y code
+```
 
 ### 起動時のスクリプトのログ確認手順
 
