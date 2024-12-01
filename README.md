@@ -148,6 +148,19 @@ Open this link in your browser https://vscode.dev/tunnel/XXXXXXXXXXXXXXXXXXXX
 > [!NOTE]
 > それでもこの開発環境が安定的に動作しないといった場合は、GitHub の [Issue](https://github.com/os1ma/cloud9-alternative/issues) で起票お願いします。
 
+### `code tunnel service install` での GitHub ログイン後のエラーメッセージ
+
+`code tunnel service install` コマンドを実行して GitHub でログインした後、以下のエラーメッセージが表示される場合があります。
+
+> [2024-12-01 03:01:20] error Error creating dbus session. This command uses systemd for managing services, you should check that systemd is installed and under your user.If running `systemctl status` works, systemd is ok, but your session dbus may not be. You might need to:
+>
+> - Install the `dbus-user-session` package, and reboot if it was not installed
+> - Start the user dbus session with `systemctl --user enable dbus --now`.
+>
+> The error encountered was: I/O error: No such file or directory (os error 2)
+
+このメッセージが表示されても次の `code tunnel` コマンドは正常に動作するようなので、`code tunnel` コマンドを試してみてください。
+
 ### `-bash: code: command not found`
 
 `code` コマンド実行時に `-bash: code: command not found` というエラーになった場合、以下のコマンドを順に実行することで、code コマンドをインストールし直すことができます。
