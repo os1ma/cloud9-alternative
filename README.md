@@ -66,9 +66,27 @@ Systems Manager のホーム画面左のメニューから「セッションマ�
 
 ![](images/ssm-terminal.png)
 
-### 3. ユーザーの変更
+### 3. `sudo loginctl enable-linger ec2-user` コマンドの実行
 
-セッションマネージャーで接続したら、以下のコマンドを実行して、操作中のユーザーを「ec2-user」に変更します。
+セッションマネージャーで接続したら、以下のコマンドを実行して、「ec2-user」というユーザーで Visual Studio Code Server を使う準備をします。
+
+```console
+sudo loginctl enable-linger ec2-user
+```
+
+エラーがない場合、以下のように特に実行結果は表示されません。
+
+```
+sh-5.2$ sudo loginctl enable-linger ec2-user
+sh-5.2$
+```
+
+> [!NOTE]
+> 上記のコマンドは、あとで実行する `code tunnel service install` コマンドが成功するようにするための操作です。
+
+### 4. ユーザーの変更
+
+続いて、以下のコマンドを実行して、操作中のユーザーを「ec2-user」に変更します。
 
 ```console
 sudo su - ec2-user
@@ -86,7 +104,7 @@ sudo su - ec2-user
 > [!WARNING]
 > 次の Visual Studio Code Server に接続するためのコマンドを実行する前に、上記の手順でユーザーを「ec2-user」に切り替える必要があります。
 
-### 4. Visual Studio Code Server への接続
+### 5. Visual Studio Code Server への接続
 
 作成した EC2 インスタンスには、Visual Studio Code がインストール済みです。
 以下の手順で、Visual Studio Code Server を起動して接続することができます。
@@ -109,29 +127,17 @@ To grant access to the server, please log into https://github.com/login/device a
 その後、EC2 Instance Connect の画面に戻り、以下のコマンドを実行してください。
 
 ```console
-code tunnel
+journalctl --user -u code-tunnel | grep https://vscode.dev/tunnel
 ```
 
 すると、以下のように表示されます。
+(表示されない場合は数秒待って再度コマンドを実行してください)
 
 ```
-*
-* Visual Studio Code Server
-*
-* By using the software, you agree to
-* the Visual Studio Code Server License Terms (https://aka.ms/vscode-server-license) and
-* the Microsoft Privacy Statement (https://privacy.microsoft.com/en-US/privacystatement).
-*
-[2024-08-05 05:42:42] info Creating tunnel with the name: XXXXXXXXXXXXXXXXXXXX
-[2024-08-05 05:42:42] info
-Open this link in your browser https://vscode.dev/tunnel/XXXXXXXXXXXXXXXXXXXX
-
-Connected to an existing tunnel process running on this machine.
-
-Open this link in your browser https://vscode.dev/tunnel/XXXXXXXXXXXXXXXXXXXX
+Jan 29 11:14:07 ip-10-0-0-188.ap-northeast-1.compute.internal code-tunnel[26082]: Open this link in your browser https://vscode.dev/tunnel/XXXXXXXXXXXXXXXXXXXX
 ```
 
-最後の行に表示された URL にアクセスして GitHub でログインすると、ブラウザ上で Visual Studio Code が開きます。
+表示された URL にアクセスして GitHub でログインすると、ブラウザ上で Visual Studio Code が開きます。
 
 ![](images/vscode.png)
 
@@ -148,6 +154,18 @@ Open this link in your browser https://vscode.dev/tunnel/XXXXXXXXXXXXXXXXXXXX
 > [!NOTE]
 > それでもこの開発環境が安定的に動作しないといった場合は、GitHub の [Issue](https://github.com/os1ma/cloud9-alternative/issues) で起票お願いします。
 
+### `-bash: code: command not found`
+
+`code` コマンド実行時に `-bash: code: command not found` というエラーになった場合、以下のコマンドを順に実行することで、code コマンドをインストールし直すことができます。
+
+```console
+sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
+echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.repos.d/vscode.repo > /dev/null
+dnf check-update
+sudo dnf install -y code
+sudo loginctl enable-linger ec2-user
+```
+
 ### `code tunnel service install` での GitHub ログイン後のエラーメッセージ
 
 `code tunnel service install` コマンドを実行して GitHub でログインした後、以下のエラーメッセージが表示される場合があります。
@@ -159,18 +177,8 @@ Open this link in your browser https://vscode.dev/tunnel/XXXXXXXXXXXXXXXXXXXX
 >
 > The error encountered was: I/O error: No such file or directory (os error 2)
 
-このメッセージが表示されても次の `code tunnel` コマンドは正常に動作するようなので、`code tunnel` コマンドを試してみてください。
-
-### `-bash: code: command not found`
-
-`code` コマンド実行時に `-bash: code: command not found` というエラーになった場合、以下のコマンドを順に実行することで、code コマンドをインストールし直すことができます。
-
-```console
-sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
-echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.repos.d/vscode.repo > /dev/null
-dnf check-update
-sudo dnf install -y code
-```
+このメッセージが表示された場合、「環境構築手順」の「3. `sudo loginctl enable-linger ec2-user` コマンドの実行」が実施されていない可能性があります。
+「環境構築手順」の「2. EC2 インスタンスへの接続」から実行し直してみてください。
 
 ### 起動時のスクリプトのログ確認手順
 
