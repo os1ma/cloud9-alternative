@@ -276,16 +276,19 @@ git -v
 
 Node.js や Terraform などの特定バージョンをインストールしたい際は、[asdf](https://asdf-vm.com/) を使用すると便利です。
 
-以下の公式ドキュメントに従って、「1. 依存関係のインストール」「2. asdf のダウンロード」「3. asdf のインストール」の手順でインストールしてください。
+以下のコマンドを順に実行することで、asdf (v0.16.5) をインストールできます。
 
-https://asdf-vm.com/ja-jp/guide/getting-started.html
+```console
+sudo dnf install -y git
+curl -sSfL https://github.com/asdf-vm/asdf/releases/download/v0.16.5/asdf-v0.16.5-linux-amd64.tar.gz -o asdf.tar.gz
+tar -xzf asdf.tar.gz
+sudo mv asdf /usr/local/bin/asdf
+echo 'export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"' >> ~/.bashrc
+echo '. <(asdf completion bash)' >> ~/.bashrc
+exec "$SHELL"
+```
 
-なお、「1. 依存関係のインストール」ではパッケージマネージャが DNF の場合の手順を実施してください。
-また、「3. asdf のインストール」では、「Bash & Git」の手順を実施してください。
-
-「3. asdf のインストール」で `~/.bashrc` を編集したら、ターミナルを一度閉じて開き直してください。
-
-以下のコマンドで、インストールできたことを確認してください。
+その後、以下のコマンドで asdf がインストールできたことを確認してください。
 
 ```console
 asdf version
